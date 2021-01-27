@@ -3,9 +3,12 @@ package com.gildedrose;
 
 class GildedRose {
 	public static boolean useRefactoredSolution = true;
+	// Names of special items (we need these names to apply specific rules)
 	public static final String AGED_BRIE = "Aged Brie";
 	public static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
 	public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+	public static final String CONJURED = "Conjured Mana Cake";
+	//
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -34,6 +37,10 @@ class GildedRose {
     	   		if(item.sellIn <= 5) toAddToQuality++; // Quality increases by 3 when there are 5 days or less
     	   		newItemQuality = item.quality + toAddToQuality;
     	   		break;
+    	   	case CONJURED:
+    	   		// Conjured" items degrade in Quality twice as fast as normal items
+    	   		newItemQuality = (item.sellIn > 0)? item.quality - 2 : item.quality - 4;
+    	   		break;    	   		
     	   	default:
     			//  At the end of each day our system lower the value for the quality
     			//  but when the sell by date has passed, quality degrades twice as fast
@@ -64,7 +71,7 @@ class GildedRose {
      * Update quality level (integer value between 80 and 0) and the "sel in" (days) value.
      * This method must be called each day (for example at midnight).
      * It modifies the attributes "quality" and "sellIn" of the array of items referred in this instance (see attribute "items").
-     * TODO : refactoring of this method
+     * TODO : remove old solution
      * Business rules implemented here (listed in the order of apparition in the specifications we have received):
      * <ol>
      *  <li>All items have a SellIn value which denotes the number of days we have to sell the item.  All items have a Quality value which denotes how valuable the item is.  At the end of each day our system lowers both values for every item</li>
@@ -75,6 +82,7 @@ class GildedRose {
      * 	<li>"Sulfuras", being a legendary item, never has to be sold or decreases in Quality</li>
      * 	<li>"Backstage passes", like aged brie, increases in Quality as its SellIn value approaches; Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but
 	Quality drops to 0 after the concert</li>
+     *  <li>"Conjured" items degrade in Quality twice as fast as normal items</li>
      * </ol>  
      */
     public void updateQuality() {
@@ -92,7 +100,11 @@ class GildedRose {
                     && !items[i].name.equals(BACKSTAGE_PASSES)) {
                 if (items[i].quality > 0) {
                     if (!items[i].name.equals(SULFURAS)) {
-                        items[i].quality = items[i].quality - 1;
+                    	if(!items[i].name.equals(CONJURED)){
+                    		items[i].quality = items[i].quality - 1;
+                    	} else {
+                    		items[i].quality = (items[i].quality > 1) ? items[i].quality - 2 : 0;
+                    	}
                     }
                 }
             } else {
@@ -124,7 +136,11 @@ class GildedRose {
                     if (!items[i].name.equals(BACKSTAGE_PASSES)) {
                         if (items[i].quality > 0) {
                             if (!items[i].name.equals(SULFURAS)) {
-                                items[i].quality = items[i].quality - 1;
+                            	if(!items[i].name.equals(CONJURED)){
+                            		items[i].quality = items[i].quality - 1;
+                            	} else {
+                            		items[i].quality = (items[i].quality > 1) ? items[i].quality - 2 : 0;
+                            	}                      	
                             }
                         }
                     } else {

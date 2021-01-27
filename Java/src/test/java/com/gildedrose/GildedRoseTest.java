@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
  * 	<li>"Sulfuras", being a legendary item, never has to be sold or decreases in Quality</li>
  * 	<li>"Backstage passes", like aged brie, increases in Quality as its SellIn value approaches; Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but
 Quality drops to 0 after the concert</li>
+ *  <li>"Conjured" items degrade in Quality twice as fast as normal items</li>
  * </ol>  
  *
  */
@@ -477,6 +478,32 @@ public class GildedRoseTest {
         );
         System.out.println(msg);
     }
+    
+    @Test
+    /**
+     * Test for business rule 8:
+     * "Conjured" items degrade in Quality twice as fast as normal items
+     */
+    public void testForBusinessRule8() {
+    	int businessRuleNumber = 1;
+    	int initialSellIn = 10;
+    	int initialQuality = 25;
+    	Item item = new Item(GildedRose.CONJURED, initialSellIn, initialQuality);
+        Item[] items = new Item[] { item };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        item = app.items[0]; // modified item
+        assertEquals(initialSellIn - 1, item.sellIn);
+        assertEquals(initialQuality - 2, item.quality);
+        String msg = String.format(
+        		"Test BusinessRule %d\n - Valeurs initiales \n\t sellIn : %d, quality : %d \n - Valeurs finales \n\t sellIn : %d, quality : %d \n",
+        		businessRuleNumber,
+        		initialSellIn, initialQuality,
+        		item.sellIn, item.quality
+        );
+        System.out.println(msg);
+    }
+    
     
     @Test
     /**

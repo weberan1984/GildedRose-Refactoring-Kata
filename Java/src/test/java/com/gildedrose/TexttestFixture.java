@@ -13,7 +13,7 @@ public class TexttestFixture {
                 new Item(GildedRose.BACKSTAGE_PASSES, 10, 49),
                 new Item(GildedRose.BACKSTAGE_PASSES, 5, 49),
                 // this conjured item does not work properly yet
-                new Item("Conjured Mana Cake", 3, 6) 
+                new Item(GildedRose.CONJURED, 3, 6) 
         };
 		return items;
 	}

@@ -4,6 +4,7 @@
 1.  I have added the business rules into comments in the code and I have added unit-tests to cover all such rules. 
 1.  I have added a new version for the calculation of updates of items.
 1.  I applied the unit testing on new version of the implementation (and I have completed the set of unit tests). 
+1.  I have implemented new rule for "Conjured" items and added a unit test for it.
 ## Instructions to compile the solution
 1. If not already done, add the path to the java SDK in the PATH variable
      set path=%path%;C:\Program Files\Java\jdk1.8.0_161\bin
