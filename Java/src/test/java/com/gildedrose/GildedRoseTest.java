@@ -1,13 +1,15 @@
 package com.gildedrose;
 
-import org.junit.jupiter.api.Test;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class GildedRoseTest {
+public class GildedRoseTest {
+	
+	public GildedRoseTest(){}
 
     @Test
-    void foo() {
+    public void foo() {
         Item[] items = new Item[] { new Item("foo", 0, 0) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
