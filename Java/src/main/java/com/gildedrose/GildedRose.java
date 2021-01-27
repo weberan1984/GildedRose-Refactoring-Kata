@@ -3,6 +3,7 @@ package com.gildedrose;
 
 class GildedRose {
 	public static boolean useRefactoredSolution = true;
+	public static int MAX_QUALITY = 50;
 	// Names of special items (we need these names to apply specific rules)
 	public static final String AGED_BRIE = "Aged Brie";
 	public static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
@@ -18,7 +19,7 @@ class GildedRose {
     private static Integer getValueOfQualityForNextDay(Item item){
     	if(item.name == null) throw new IllegalArgumentException("name can't be null");
     	if(item.quality < 0) throw new IllegalArgumentException("quality must have a value greater than 0");
-    	if(item.quality > 50 && !item.name.equals(SULFURAS)) throw new IllegalArgumentException("quality must have a value less than 51");
+    	if(item.quality > MAX_QUALITY && !item.name.equals(SULFURAS)) throw new IllegalArgumentException("quality must have a value less than " + (MAX_QUALITY +1));
     	int newItemQuality;
     	switch(item.name){
     		case AGED_BRIE:
@@ -48,7 +49,7 @@ class GildedRose {
     	   		break;
     	}
     	if(newItemQuality < 0) newItemQuality = 0;  // we can't decrease the quality under 0 
-   		if(newItemQuality > 50) newItemQuality = 50; // The Quality of an item is never more than 50 (not applicable for SULFURAS but for SULFURAS we returned before)
+   		if(newItemQuality > MAX_QUALITY) newItemQuality = MAX_QUALITY; // The Quality of an item is never more than 50 (not applicable for SULFURAS but for SULFURAS we returned before)
     	return newItemQuality;
     }
     
@@ -68,7 +69,7 @@ class GildedRose {
     
 
     /**
-     * Update quality level (integer value between 80 and 0) and the "sel in" (days) value.
+     * Update quality level (integer value between 80 and 0) and the "sell in" (days) value.
      * This method must be called each day (for example at midnight).
      * It modifies the attributes "quality" and "sellIn" of the array of items referred in this instance (see attribute "items").
      * TODO : remove old solution
