@@ -171,7 +171,25 @@ public class GildedRoseTest {
         		initialSellIn, initialQuality,
         		item.sellIn, item.quality
         );
+        System.out.println(msg); 
+        //
+    	initialSellIn = 2;
+    	initialQuality = 0;
+    	item = new Item(GildedRose.AGED_BRIE, initialSellIn, initialQuality);
+        items = new Item[] { item };
+        app = new GildedRose(items);
+        app.updateQuality();
+        item = app.items[0]; // modified item
+        assertEquals(initialSellIn - 1, item.sellIn);
+        assertEquals(initialQuality +1, item.quality);
+        msg = String.format(
+        		"Test BusinessRule %d\n - Valeurs initiales \n\t sellIn : %d, quality : %d \n - Valeurs finales \n\t sellIn : %d, quality : %d \n",
+        		businessRuleNumber,
+        		initialSellIn, initialQuality,
+        		item.sellIn, item.quality
+        );
         System.out.println(msg);    
+        
     }
     
     @Test
@@ -238,6 +256,23 @@ public class GildedRoseTest {
         		item.sellIn, item.quality
         );
         System.out.println(msg);
+        //
+    	initialSellIn = 0;
+    	initialQuality = 40;
+    	item = new Item(GildedRose.AGED_BRIE, initialSellIn, initialQuality);
+        items = new Item[] { item };
+        app = new GildedRose(items);
+        app.updateQuality();
+        item = app.items[0]; // modified item
+        assertEquals(initialSellIn - 1, item.sellIn);
+        assertEquals(initialQuality + 2, item.quality);
+        msg = String.format(
+        		"Test BusinessRule %d\n - Valeurs initiales \n\t sellIn : %d, quality : %d \n - Valeurs finales \n\t sellIn : %d, quality : %d \n",
+        		businessRuleNumber,
+        		initialSellIn, initialQuality,
+        		item.sellIn, item.quality
+        );
+        System.out.println(msg);
         
     }
     
@@ -257,7 +292,7 @@ public class GildedRoseTest {
         String msg;
         //
     	initialSellIn = 10;
-    	initialQuality = 49;
+    	initialQuality = 80;
     	item = new Item(GildedRose.SULFURAS, initialSellIn, initialQuality);
         items = new Item[] { item };
         app = new GildedRose(items);
@@ -274,7 +309,7 @@ public class GildedRoseTest {
         System.out.println(msg);
         //
      	initialSellIn = 0;
-     	initialQuality = 50;
+     	initialQuality = 80;
      	item = new Item(GildedRose.SULFURAS, initialSellIn, initialQuality);
          items = new Item[] { item };
          app = new GildedRose(items);
@@ -293,7 +328,7 @@ public class GildedRoseTest {
     
     @Test
     /**
-     * Test for business rule 6 :
+     * Test for business rule 7 :
      * "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches; 
      * Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less 
      * but Quality drops to 0 after the concert
@@ -441,9 +476,29 @@ public class GildedRoseTest {
         		item.sellIn, item.quality
         );
         System.out.println(msg);
- }
+    }
     
-    
+    @Test
+    /**
+     * Test on no regression of TexttestFixture
+     */
+    public void testForTexttestFixture() {    
+     	int nbDays = 2;
+    	Item[] items;
+    	items = TexttestFixture.getTestItems();
+       	GildedRose.useRefactoredSolution = false;
+    	String texttestOldSolution = TexttestFixture.produceTextFixtureForDays(items, nbDays);
+    	items = TexttestFixture.getTestItems();
+       	GildedRose.useRefactoredSolution = true;
+    	String texttestNewSolution = TexttestFixture.produceTextFixtureForDays(items, nbDays);
+    	System.out.println("testForTexttestFixture");
+    	System.out.println("text obtained with old solution :");
+    	System.out.println(texttestOldSolution);
+    	System.out.println("text obtained with new solution :");
+    	System.out.println(texttestNewSolution);
+    	System.out.println();
+    	assertEquals(texttestOldSolution, texttestNewSolution);
+    }
     
 
 }
