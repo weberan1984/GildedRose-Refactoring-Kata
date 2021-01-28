@@ -504,28 +504,4 @@ public class GildedRoseTest {
         System.out.println(msg);
     }
     
-    
-    @Test
-    /**
-     * Test on no regression of TexttestFixture
-     */
-    public void testForTexttestFixture() {    
-     	int nbDays = 2;
-    	Item[] items;
-    	items = TexttestFixture.getTestItems();
-       	GildedRose.useRefactoredSolution = false;
-    	String texttestOldSolution = TexttestFixture.produceTextFixtureForDays(items, nbDays);
-    	items = TexttestFixture.getTestItems();
-       	GildedRose.useRefactoredSolution = true;
-    	String texttestNewSolution = TexttestFixture.produceTextFixtureForDays(items, nbDays);
-    	System.out.println("testForTexttestFixture");
-    	System.out.println("text obtained with old solution :");
-    	System.out.println(texttestOldSolution);
-    	System.out.println("text obtained with new solution :");
-    	System.out.println(texttestNewSolution);
-    	System.out.println();
-    	assertEquals(texttestOldSolution, texttestNewSolution);
-    }
-    
-
 }

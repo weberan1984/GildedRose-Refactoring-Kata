@@ -2,7 +2,6 @@ package com.gildedrose;
 
 
 class GildedRose {
-	public static boolean useRefactoredSolution = true;
 	public static int MAX_QUALITY = 50;
 	// Names of special items (we need these names to apply specific rules)
 	public static final String AGED_BRIE = "Aged Brie";
@@ -72,7 +71,6 @@ class GildedRose {
      * Update quality level (integer value between 80 and 0) and the "sell in" (days) value.
      * This method must be called each day (for example at midnight).
      * It modifies the attributes "quality" and "sellIn" of the array of items referred in this instance (see attribute "items").
-     * TODO : remove old solution
      * Business rules implemented here (listed in the order of apparition in the specifications we have received):
      * <ol>
      *  <li>All items have a SellIn value which denotes the number of days we have to sell the item.  All items have a Quality value which denotes how valuable the item is.  At the end of each day our system lowers both values for every item</li>
@@ -87,72 +85,9 @@ class GildedRose {
      * </ol>  
      */
     public void updateQuality() {
-    	if(useRefactoredSolution){
-    		// new solution
-	    	for(Item item : items){
-	    		item.quality = getValueOfQualityForNextDay(item);
-	    		item.sellIn = getValueOfSellInForNextDay(item);
-	    	}
-	    	return;
+    	for(Item item : items){
+    		item.quality = getValueOfQualityForNextDay(item);
+    		item.sellIn = getValueOfSellInForNextDay(item);
     	}
-    	// Old solution we keep for now (but it will be removed in the future)
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals(AGED_BRIE)
-                    && !items[i].name.equals(BACKSTAGE_PASSES)) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals(SULFURAS)) {
-                    	if(!items[i].name.equals(CONJURED)){
-                    		items[i].quality = items[i].quality - 1;
-                    	} else {
-                    		items[i].quality = (items[i].quality > 1) ? items[i].quality - 2 : 0;
-                    	}
-                    }
-                }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
-
-                    if (items[i].name.equals(BACKSTAGE_PASSES)) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!items[i].name.equals(SULFURAS)) {
-                items[i].sellIn = items[i].sellIn - 1;
-            }
-
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals(AGED_BRIE)) {
-                    if (!items[i].name.equals(BACKSTAGE_PASSES)) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals(SULFURAS)) {
-                            	if(!items[i].name.equals(CONJURED)){
-                            		items[i].quality = items[i].quality - 1;
-                            	} else {
-                            		items[i].quality = (items[i].quality > 1) ? items[i].quality - 2 : 0;
-                            	}                      	
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality;
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
-                }
-            }
-        }
     }
 }
